@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\"",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
@@ -27,6 +29,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
     "autoprefixer": "^10.5.4",
+    "gh-pages": "^6.3.0",
     "oxlint": "^1.71.0",
     "postcss": "^8.5.20",
     "tailwindcss": "^4.3.3",
