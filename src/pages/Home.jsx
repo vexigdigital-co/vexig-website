@@ -9,6 +9,7 @@ import { useDeviceCapability } from '../hooks/useDeviceCapability';
 
 export function Home() {
   const { isMobile, reducedMotion } = useDeviceCapability();
+  const [splineLoaded, setSplineLoaded] = useState(false);
 
   // Fallback to remove loading screen if Spline fails to load within 3 seconds
   useEffect(() => {
