@@ -42,7 +42,7 @@ export function ServiceDetail() {
                 SYS_MOD_{service.id}
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 uppercase text-balance leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 uppercase text-balance leading-tight break-words">
               {service.title}
             </h1>
             <p className="text-xl text-white/70 font-sans leading-relaxed">

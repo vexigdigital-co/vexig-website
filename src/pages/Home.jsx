@@ -5,9 +5,10 @@ import { Section, SectionHeader } from '../components/ui/Section';
 import { Card } from '../components/ui/Card';
 import { services, portfolio } from '../data/content';
 import { Shield, Zap, Cpu, Code, Database, Network } from 'lucide-react';
+import { useDeviceCapability } from '../hooks/useDeviceCapability';
 
 export function Home() {
-  const [splineLoaded, setSplineLoaded] = useState(false);
+  const { isMobile, reducedMotion } = useDeviceCapability();
 
   // Fallback to remove loading screen if Spline fails to load within 3 seconds
   useEffect(() => {
@@ -24,7 +25,7 @@ export function Home() {
         
         {/* Loading Indicator */}
         <AnimatePresence>
-          {!splineLoaded && (
+          {!splineLoaded && !isMobile && !reducedMotion && (
             <motion.div 
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -48,40 +49,44 @@ export function Home() {
           )}
         </AnimatePresence>
 
-        {/* Spline 3D Scene */}
-        <div className="absolute inset-0 z-0 opacity-70 pointer-events-auto">
-          <iframe 
-            src="https://my.spline.design/aloneinteractive-w7Tz4mF7PdYuLqKi4zwFqE6f/" 
-            frameBorder="0" 
-            width="100%" 
-            height="100%"
-            onLoad={() => setSplineLoaded(true)}
-            className="w-full h-full"
-            title="Vexig 3D Interactive Model"
-          />
-        </div>
+        {/* Spline 3D Scene (Only on Desktop) */}
+        {!isMobile && !reducedMotion ? (
+          <div className="absolute inset-0 z-0 opacity-70 pointer-events-auto">
+            <iframe 
+              src="https://my.spline.design/aloneinteractive-w7Tz4mF7PdYuLqKi4zwFqE6f/" 
+              frameBorder="0" 
+              width="100%" 
+              height="100%"
+              onLoad={() => setSplineLoaded(true)}
+              className="w-full h-full"
+              title="Vexig 3D Interactive Model"
+            />
+          </div>
+        ) : (
+          <div className="absolute inset-0 z-0 opacity-40 bg-[url('/images/ai-agents.png')] bg-cover bg-center" />
+        )}
         
         {/* Subtle dark gradient overlay so text is readable */}
-        <div className="absolute inset-0 z-1 bg-gradient-to-r from-black via-black/50 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 z-1 bg-gradient-to-r from-black via-black/70 to-transparent pointer-events-none" />
 
-        <div className="container mx-auto px-6 relative z-10 w-full pointer-events-none">
+        <div className="container mx-auto px-6 relative z-10 w-full pointer-events-none mt-12 md:mt-0">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
-            className="max-w-3xl glass-panel p-10 md:p-14 pointer-events-auto"
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+            className="max-w-3xl glass-panel p-6 sm:p-10 md:p-14 pointer-events-auto backdrop-blur-md"
           >
-            <div className="flex items-center gap-3 mb-6">
-                <Cpu className="w-6 h-6 text-brand-cyan" />
-                <span className="font-mono text-brand-cyan uppercase tracking-widest text-sm text-glow">
+            <div className="flex items-center gap-2 sm:gap-3 mb-6">
+                <Cpu className="w-5 h-5 sm:w-6 sm:h-6 text-brand-cyan" />
+                <span className="font-mono text-brand-cyan uppercase tracking-widest text-xs sm:text-sm text-glow">
                   Vexig // Core Systems
                 </span>
               </div>
-              <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tight text-white mb-6 uppercase text-balance leading-[1.1]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight text-white mb-6 uppercase text-balance leading-tight sm:leading-[1.1] break-words">
                 Architects of the <br />
                 <span className="text-brand-cyan text-glow">Digital Future</span>
               </h1>
-              <p className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl text-balance font-sans leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl text-white/70 mb-8 sm:mb-10 max-w-2xl text-balance font-sans leading-relaxed">
                 Advanced AI integrations, high-performance web applications, and data-driven marketing protocols engineered for exponential growth.
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-6">
